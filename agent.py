@@ -42,6 +42,21 @@ task1 = Task(
     agent=researcher,
 )
 
+writer = Agent(
+    llm=llm,
+    role="Senior Speech Writer",
+    goal="Write engaging and witty keynote speeches from provided research.",
+    backstory="You are a veteran quantum computing writer with a background in modern physics.",
+    allow_delegation=False,
+    verbose=1,
+)
 
-crew = Crew(agents=[researcher], tasks=[task1], verbose=1)
+task2 = Task(
+    description="Write an engaging keynote speech on quantum computing.",
+    expected_output="A detailed keynote speech with an intro, body and conclusion.",
+    output_file="task2output.txt",
+    agent=writer,
+)
+
+crew = Crew(agents=[researcher, writer], tasks=[task1, task2], verbose=1)
 print(crew.kickoff())
